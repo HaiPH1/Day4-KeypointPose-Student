@@ -1,6 +1,6 @@
 # Review bài bạn cùng nhóm
 
-Người gán: duypx   Người kiểm: HaiPH   Ngày: 2026-09-16
+Người gán: Phạm Xuân Duy   Người kiểm: Phạm Hữu Hải   Ngày: 2026-09-16
 
 Bài được kiểm: `ban_cung_nhom/dataset.duypx/dataset/labels/train` (20 file, 28 skeleton).
 
@@ -46,7 +46,7 @@ chạy trên bài của bạn sau khi gold mở (OKS trung bình 0.923, OKS@0.75
 
 ## Hai câu kết luận
 
-- Lỗi lặp đi lặp lại nhiều nhất của bài này: **đặt hông lệch** (3 ảnh, 5 chấm). Hông cũng là một trong hai khớp lệch
+- Lỗi lặp đi lặp lại nhiều nhất của bài này: **đặt hông lệch** (2 ảnh, 4 chấm: `train_03`, `train_04`). Hông cũng là một trong hai khớp lệch
   `%v=1` nhiều nhất giữa hai bài (`left_hip` 25% của tôi so với 7% của bạn; khớp kia là `left_wrist` 36% so với 21%).
 - Nó là lỗi **guideline chưa rõ**: hai người chưa thống nhất hông của người mặc quần áo dài được
   xác định từ mốc nào và gắn cờ gì.

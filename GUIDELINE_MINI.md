@@ -1,4 +1,4 @@
-# Mini guideline - nhóm: HaiPH + duypx  |  người gán: HaiPH  |  ngày: 2026-09-16
+# Mini guideline - nhóm: Phạm Hữu Hải + Phạm Xuân Duy  |  người gán: Phạm Hữu Hải  |  ngày: 2026-09-16
 
 > Điền file này **trong lúc** gán nhãn, không phải sau khi xong. Mỗi lần bạn dừng lại
 > hơn 10 giây để phân vân, đó là một dòng phải ghi vào đây.
@@ -16,7 +16,7 @@
 
 | Tình huống | Luật nhóm bạn chọn | Vì sao |
 | --- | --- | --- |
-| Hông của người mặc quần áo dài | Đặt chấm ở nếp gấp đùi - thân, ngang cạp quần hạ xuống một chút về phía ngoài. `v = 2` khi đường viền thân và cạp quần cho định vị chắc chắn; `v = 1` khi có vật che thêm lên trên (tay, túi, xe, bàn, người khác). Ảnh mẫu: `train_13` người 1 (`v = 2`), `train_10` người 1 (`v = 1`, bị xe che) | Hông không có bề mặt nhìn thấy trên người mặc quần áo, nên phải có mốc cố định. Hai bài lệch `%v=1` ở `left_hip` 18 điểm (25% / 7%) và 3 ảnh bị lệch vị trí hông -> trước đây chưa có mốc chung |
+| Hông của người mặc quần áo dài | Đặt chấm ở nếp gấp đùi - thân, ngang cạp quần hạ xuống một chút về phía ngoài. `v = 2` khi đường viền thân và cạp quần cho định vị chắc chắn; `v = 1` khi có vật che thêm lên trên (tay, túi, xe, bàn, người khác). Ảnh mẫu: `train_13` người 1 (`v = 2`), `train_10` người 1 (`v = 1`, bị xe che) | Hông không có bề mặt nhìn thấy trên người mặc quần áo, nên phải có mốc cố định. Hai bài lệch `%v=1` ở `left_hip` 18 điểm (25% / 7%) và 2 ảnh bị lệch vị trí hông -> trước đây chưa có mốc chung |
 | Tai bị tóc hoặc mũ bảo hiểm che một phần | Vẫn đặt chấm ở vị trí tai ước lượng theo đường mắt - gáy, `v = 1`. Ảnh mẫu: `train_04`, `train_15` (mũ bảo hiểm) | Mũ không làm tai ra khỏi khung; tai là khớp `%v=1` cao nhất bài (`left_ear` 54%), cả hai người trùng nhau ở 54% nên luật này đã thống nhất |
 | Người bị cắt ở mép ảnh (chỉ thấy từ hông trở lên) | Khớp nằm dưới mép ảnh -> `v = 0`, không đặt chấm. Khớp nằm sát mép nhưng vẫn trong khung -> kéo chấm vào trong ít nhất vài pixel. Hai khớp cùng cặp (hai hông, hai gối) quyết cùng nhau. Hông đã sát mép đáy thì gối và cổ chân là `v = 0`. Ảnh mẫu: `train_04` người 1 (bên trái), `train_10` người 1 | `train_04`: lần đầu `left_hip` bị kéo ra ngoài khung 1 px với `v = 2` -> checker chặn; hai hông cùng người lệch nhau 1 px mà một cái `v = 2` một cái `v = 0` là nhãn không nhất quán. `train_10`: hông ở 338-352 / 375 px, thử đặt gối thì rơi xuống y = 379 px -> ngoài khung, phải là `v = 0` |
 | Cổ tay nằm sau tay lái / sau thân mình | `v = 1`, đặt chấm ước lượng theo hướng cẳng tay. Không bao giờ để `v = 0`. Ảnh mẫu: `train_01` người 1 và 2 | Lần chấm đầu có 2 lỗi `xoa_khop_bi_che` đúng ở hai cổ tay này (gold `v = 1`, bài `v = 0`) |
@@ -108,7 +108,7 @@ phía trước; người áo xanh nhỏ, mờ ở nền bên trái không gán.
 
 - Khớp lệch `%v=1` nhiều nhất: `left_hip` (bạn `25%` / họ `7%`) và `left_wrist` (bạn `36%` / họ `21%`)
 - Nguyên nhân là **guideline chưa rõ** hay **một trong hai bên gán sai**: guideline chưa rõ. Với hông,
-  hai người chưa có mốc chung để chọn `v = 2` hay `v = 1` (bài bạn cùng nhóm có 3 ảnh lệch vị trí
+  hai người chưa có mốc chung để chọn `v = 2` hay `v = 1` (bài bạn cùng nhóm có 2 ảnh lệch vị trí
   hông). Với cổ tay, tôi gắn `v = 1` nhiều hơn cho cổ tay sau tay lái/sau thân, nhưng lúc đầu lại để `v = 0` ở
   `train_01` -> không nhất quán ngay trong bài mình; đã sửa sang `v = 1` khi rework.
 - Luật mới bổ sung vào mục 2 sau khi thống nhất: dòng **Hông** (mốc nếp gấp đùi - thân, `v = 1` khi

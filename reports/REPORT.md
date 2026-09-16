@@ -1,6 +1,6 @@
 # Báo cáo Ngày 4 - Keypoint & Pose
 
-Họ tên: Phạm Hữu Hải   Nhóm: HaiPH + duypx   Ngày: 2026-09-16
+Họ tên: Phạm Hữu Hải   Nhóm: Phạm Hữu Hải + Phạm Xuân Duy   Ngày: 2026-09-16
 
 ## 1. Nhãn của tôi
 
@@ -72,13 +72,13 @@ Công cụ báo một lỗi `dao_trai_phai` ở `train_15` người 1 (OKS 0.394
 
 ## 3. Kiểm chéo
 
-Bạn cùng nhóm: duypx
+Bạn cùng nhóm: Phạm Xuân Duy
 
 Khớp lệch `%v=1` nhiều nhất giữa hai bảng đếm:
 
 | Khớp | Bạn | Họ | Lệch | Nguyên nhân (guideline hay gán sai?) |
 | --- | ---: | ---: | ---: | --- |
-| `left_hip` | 25% | 7% | 18 | Guideline: chưa có mốc chung để định vị hông và chọn `v=2`/`v=1` cho người mặc quần áo; bài bạn có 3 ảnh lệch vị trí hông. Sau rework tôi đổi thêm hông ở `train_11`, `train_12` sang `v=1` (bị vật che) nên lệch tăng từ 11 lên 18 |
+| `left_hip` | 25% | 7% | 18 | Guideline: chưa có mốc chung để định vị hông và chọn `v=2`/`v=1` cho người mặc quần áo; bài bạn có 2 ảnh lệch vị trí hông. Sau rework tôi đổi thêm hông ở `train_11`, `train_12` sang `v=1` (bị vật che) nên lệch tăng từ 11 lên 18 |
 | `left_wrist` | 36% | 21% | 14 | Guideline chưa nói cổ tay sau tay lái / sau thân gắn cờ gì. Bài tôi lúc đầu cũng không nhất quán (2 cổ tay ở `train_01` để `v=0`), sau rework đổi sang `v=1` nên lệch tăng từ 11 lên 14 |
 
 Luật mới đã bổ sung vào `GUIDELINE_MINI.md` sau khi thống nhất:
