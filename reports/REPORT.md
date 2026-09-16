@@ -1,6 +1,6 @@
 # Báo cáo Ngày 4 - Keypoint & Pose
 
-Họ tên: ______   Nhóm: HaiPH + duypx   Ngày: 2026-09-16
+Họ tên: Phạm Hữu Hải   Nhóm: HaiPH + duypx   Ngày: 2026-09-16
 
 ## 1. Nhãn của tôi
 
@@ -13,7 +13,7 @@ thời gian gán / 20. -->
 | Số ảnh đã gán | 20 |
 | Số skeleton | 28 |
 | v=2 / v=1 / v=0 | 328 / 125 / 23 |
-| Thời gian trung bình mỗi ảnh | |
+| Thời gian trung bình mỗi ảnh | ~5 phút |
 
 Ba khớp có `%v=1` cao nhất (chép từ `reports/visibility_report.md`):
 
@@ -25,6 +25,8 @@ Chúng có đúng là những khớp bạn thấy khó gán nhất không? Nếu
 
 <!-- Trả lời 2–4 câu. Phân biệt “hay bị che” với “khó xác định vị trí giải phẫu”; nêu bằng
 chứng nhìn thấy thay vì chỉ nêu cảm giác. -->
+
+Không hoàn toàn. Hai tai đứng đầu vì **hay bị che** bởi mũ bảo hiểm và tóc (`train_04`, `train_15`), nhưng vị trí vẫn dễ ước lượng theo đầu: `left_ear` trùng khớp 54% với bạn cùng nhóm và không có lỗi lệch vị trí nào ở tai trong `outputs/eval_vs_gold.json` ngoài người 1 của `train_15`. Khớp khó gán nhất thật sự là **hông và đầu gối** - khó vì **vị trí giải phẫu**, không phải vì bị che: hông không nhìn thấy dưới quần áo nên bị lệch `%v=1` với bạn cùng nhóm 18 điểm (25% / 7%), và cả hai lỗi định dạng của tôi đều ở hông, gối sát mép đáy ảnh (`train_04`, `train_10`). Cổ tay (`left_wrist` 36%) là khớp duy nhất vừa hay bị che vừa có lỗi thật: hai cổ tay ở `train_01` ban đầu để `v=0` và bị chấm `xoa_khop_bi_che`.
 
 ## 2. Chấm với gold
 

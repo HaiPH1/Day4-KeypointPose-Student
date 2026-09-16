@@ -27,7 +27,35 @@ Với mỗi luật, chèn **một ảnh mẫu** (screenshot từ CVAT) thay vì 
 Slide 12 nói rõ: khớp không có bề mặt nhìn thấy được thì phải có ảnh mẫu, không phải
 một câu văn chung chung.
 
-<!-- TODO: chụp screenshot CVAT cho từng ảnh mẫu ở trên và chèn vào đây. -->
+### Ảnh mẫu (screenshot CVAT)
+
+Chấm viền nét đứt trong CVAT = `v = 1` (bị che); khớp `v = 0` không có chấm.
+
+**Hông của người mặc quần áo dài** + **Người bị cắt ở mép ảnh** - `train_10` người 1: hai hông nét đứt
+(`v = 1`) sau kính chắn gió, không có chấm gối và cổ chân vì đã nằm dưới mép đáy ảnh (`v = 0`).
+
+![train_10 - hông v=1 sau kính chắn gió, gối và cổ chân v=0 dưới mép ảnh](reports/img/train_10.png)
+
+**Tai bị tóc hoặc mũ bảo hiểm che** + **Người bị cắt ở mép ảnh** - `train_04`: tai của người lái xe bên
+phải là chấm nét đứt nằm trong mũ bảo hiểm (`v = 1`); người lái xe bên trái bị cắt ở đáy ảnh, hai hông kéo
+vào trong khung.
+
+![train_04 - tai v=1 trong mũ bảo hiểm, người bên trái bị cắt ở đáy ảnh](reports/img/train_04.png)
+
+**Cổ tay nằm sau tay lái / sau thân mình** - `train_01`: cổ tay của cả hai người đều có chấm, không có
+cổ tay nào bị bỏ trống với `v = 0`.
+
+![train_01 - cổ tay của cả hai người đều được đặt chấm](reports/img/train_01.png)
+
+**Hai người chồng lên nhau** - `train_16`: hai cầu thủ chồng lên nhau khi bật nhảy, xương của mỗi người
+nằm đúng trên cơ thể người đó.
+
+![train_16 - hai người chồng nhau, không nhầm người](reports/img/train_16.png)
+
+**Người nhỏ đến mức nào thì không gán nữa** + **Hai người chồng lên nhau** - `train_13`: gán hai người
+phía trước; người áo xanh nhỏ, mờ ở nền bên trái không gán.
+
+![train_13 - người nhỏ ở nền bên trái không gán](reports/img/train_13.png)
 
 ## 3. Ba ca mơ hồ đã gặp (bắt buộc, ghi ít nhất 3)
 
@@ -42,6 +70,8 @@ một câu văn chung chung.
 - Nếu người khác quyết ngược lại thì model học sai cái gì: nếu một người để `v = 0`, model học rằng
   hông ở sát mép ảnh "không tồn tại", rồi bỏ sót hông của người ngồi thấp trong khung hình.
 
+![train_04 - ca 1](reports/img/train_04.png)
+
 ### Ca 2 - ảnh `train_15`, người thứ `1`, khớp toàn bộ cặp trái/phải
 
 - Mơ hồ ở chỗ nào: người đội mũ bảo hiểm đen đứng nghiêng, gần như quay lưng lại, cúi về phía xe.
@@ -54,6 +84,8 @@ một câu văn chung chung.
 - Nếu người khác quyết ngược lại thì model học sai cái gì: đảo trái/phải bị augmentation lật ảnh
   (`flip_idx`) dạy hai lần; model học rằng người quay lưng có tay trái nằm bên trái ảnh -> sai ở mọi
   ảnh người quay lưng.
+
+![train_15 - ca 2, người đội mũ đen bên trái](reports/img/train_15.png)
 
 ### Ca 3 - ảnh `train_11`, người thứ `1`, khớp `left_knee`, `right_knee`, `left_hip`, `right_hip`
 
@@ -69,6 +101,8 @@ một câu văn chung chung.
   của checker chỉ là gợi ý, phải tự kiểm toạ độ.
 - Nếu người khác quyết ngược lại thì model học sai cái gì: `v = 0` dạy model rằng người ngồi sau
   bàn/xe "không có chân" -> model không học được đoán khớp bị che, OKS mất điểm ở mọi ca bị che.
+
+![train_11 - ca 3, hông và gối v=1 sau bàn và con mèo](reports/img/train_11.png)
 
 ## 4. Sau khi so visibility report với bạn cùng nhóm
 
