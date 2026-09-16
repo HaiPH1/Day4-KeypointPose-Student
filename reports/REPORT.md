@@ -96,11 +96,12 @@ Không chỉ ghi “cẩn thận hơn khi gán”. -->
 
 | Chỉ số | yolo26n-pose gốc | Sau fine-tune | Chênh |
 | --- | ---: | ---: | ---: |
-| pose_mAP50 | | | |
-| pose_mAP50-95 | | | |
-| pose_precision | | | |
-| pose_recall | | | |
-| box_mAP50-95 | | | |
+| pose_mAP50 | 0.8450 | 0.8450 | +0.0000 |
+| pose_mAP50-95 | 0.6853 | 0.6908 | +0.0055 |
+| pose_precision | 0.9734 | 0.9792 | +0.0058 |
+| pose_recall | 0.8462 | 0.8462 | +0.0000 |
+| box_mAP50 | 0.9785 | 0.9600 | -0.0185 |
+| box_mAP50-95 | 0.8119 | 0.8041 | -0.0078 |
 
 ### Trả lời năm câu hỏi ở cuối notebook
 
@@ -110,16 +111,70 @@ Không chỉ ghi “cẩn thận hơn khi gán”. -->
 1. `pose_mAP50-95` thay đổi bao nhiêu? Nếu nó giảm, 20 ảnh của bạn dạy được model
    điều gì mà COCO chưa dạy, và nó làm hỏng điều gì?
 
+   `pose_mAP50-95` tăng rất nhẹ, từ 0.6853 lên 0.6908 (+0.0055); `pose_mAP50` giữ nguyên 0.845. Mức
+   thay đổi này quá nhỏ để kết luận 20 ảnh của tôi làm model tốt lên: tập test chỉ có 10 ảnh, 13 người,
+   nên một khớp đặt lệch hay đúng hơn đã đủ đẩy số lên xuống cỡ này. `yolo26n-pose` vốn đã train trên
+   COCO với cùng bộ 17 điểm, nên 20 ảnh gần như không dạy thêm được gì mới về vị trí khớp. Thứ nhích
+   lên là độ chặt của khớp (`mAP50-95` dùng ngưỡng OKS cao), trong khi `pose_recall` đứng yên ở 0.8462 =
+   11/13 người: model trước và sau đều bỏ sót đúng 2 người trong tập test. Cái bị hỏng nhẹ là box:
+   `box_mAP50` giảm 0.0185 và `box_mAP50-95` giảm 0.0078 - fine-tune 80 epoch trên 20 ảnh kéo model
+   về phía phân bố của 20 ảnh này, làm khung người trên ảnh test khớp kém đi một chút.
+
 2. `box_mAP` và `pose_mAP` chênh nhau bao nhiêu? Model tìm *người* dễ hơn hay tìm
    *khớp* dễ hơn? Vì sao?
+
+   Sau fine-tune, `box_mAP50-95` = 0.8041 và `pose_mAP50-95` = 0.6908, chênh 0.1133 (model gốc chênh
+   0.1266). Ở ngưỡng lỏng: `box_mAP50` 0.960 so với `pose_mAP50` 0.845, chênh 0.115. Model tìm
+   **người** dễ hơn tìm **khớp**. Box chỉ cần 4 cạnh trùng đủ với khung thật (IoU), và một người là một
+   vật thể lớn, rõ. Pose phải đặt đúng cả 17 điểm, mỗi điểm nằm trong bán kính dung sai riêng của OKS -
+   rất nhỏ với mắt, mũi, tai - và phải đoán cả khớp bị che mà ảnh không cho thấy. Một người có box
+   đúng hoàn toàn vẫn có thể có OKS thấp chỉ vì cổ tay, cổ chân bị che hoặc đặt lệch.
 
 3. Một ảnh test model đoán sai - gọi tên lỗi theo bốn loại của slide 43
    (lệch nhẹ / đảo trái/phải / nhầm người / trượt hẳn):
 
+   `test_02`: nhãn phát sẵn chỉ có **1 người** (người đứng bên phải, bóng đen trên nền trời), nhưng model
+   tìm ra **2 người**. Người thứ hai có box nhỏ ở góc dưới bên trái với độ tin cậy chỉ 0.31 (ngưỡng dự đoán
+   là 0.25) - đúng vị trí **con chim đậu trên bờ tường**. Model gán cả một skeleton người lên con chim.
+   Theo bốn loại của slide 43, đây là **trượt hẳn** ở mức cả skeleton: mọi chấm đều rơi vào chỗ không có
+   khớp người nào; nói cách khác là một dự đoán thừa người (false positive). Lý do nhiều khả năng: ảnh đen
+   trắng, người thật cũng chỉ là một bóng đen không có chi tiết, nên với model một bóng đen nhỏ có đầu
+   và thân trên nền sáng trông giống người. Người thật (độ tin cậy 0.90) vẫn được tìm đúng. Đây là ảnh
+   duy nhất model đếm lệch số người: 9 ảnh còn lại số người model tìm được khớp đúng với nhãn phát sẵn.
+
 4. Ảnh nào có OKS thấp nhất giữa nhãn của bạn và model? Ai đúng, và bạn dựa vào đâu?
+
+   Thấp nhất là `train_15` với OKS 0.259 - người 1, người đội mũ bảo hiểm đen đứng cúi về phía xe (người
+   2 của ảnh này đạt 0.872). Bằng chứng về ai đúng:
+   - Gold cũng lệch với tôi đúng ở người này: OKS nhãn của tôi so với gold chỉ 0.394, công cụ chấm báo
+     `dao_trai_phai` (đổi toàn bộ cặp trái/phải thì OKS tăng hẳn) kèm `truot_han` ở hai khuỷu tay.
+   - Model đã được fine-tune trên chính nhãn của tôi cho ảnh này mà vẫn lệch với tôi, thấp hơn cả gold. Tức
+     là cách đọc hướng người mà model học từ COCO mạnh hơn một nhãn đơn lẻ của tôi. Nhiều khả năng model
+     đang đọc hướng người giống gold.
+   - Ngược lại, ảnh không cho căn cứ chắc chắn: người này gần như quay lưng, cúi người, mũ che hết mặt,
+     hai tay khuất sau xe - không có mắt/mũi để xác định hướng. Giáo viên đã xem và chấp nhận giữ nguyên
+     nhãn của tôi.
+
+   Kết luận: theo quy ước COCO thì model và gold đúng hơn; nhãn của tôi là một cách đọc được chấp nhận
+   của một ca mơ hồ thật. Ở hai ảnh thấp kế tiếp thì khác: `train_06` (0.653) và `train_14` (0.679) có nhãn
+   của tôi gần gold (lần lượt 0.922 và trên 0.93), nên ở đó **model sai**, không phải nhãn.
 
 5. Ảnh bạn gán tệ nhất có *cũng* là ảnh model đoán tệ nhất không? Nếu có, điều đó
    nói gì về bức ảnh đó?
+
+   Có. Hai ảnh tệ nhất của tôi theo gold cũng là hai ảnh đứng đầu danh sách model lệch với tôi:
+
+   | Ảnh | OKS tôi vs gold | OKS model vs tôi | Số người (tôi / model / gold) |
+   | --- | ---: | ---: | --- |
+   | `train_15` người 1 | 0.394 | 0.259 | 2 / 2 / 2 |
+   | `train_13` người 2 | 0.793 | 0.638 | 2 / 3 / 3 |
+
+   Điều đó nói rằng cái khó nằm ở **bức ảnh**, không phải do tôi gán ẩu. `train_15`: người quay lưng, mũ che
+   mặt, tay khuất sau xe - thiếu đúng những manh mối người và model dùng để phân biệt trái/phải. `train_13`:
+   phố đông, người chồng lên nhau, có một người nhỏ ở nền - tôi không gán người này (giáo viên cho phép),
+   còn model và gold đều tính là 3 người. Những ảnh như vậy nên được ghi thành ca mơ hồ trong guideline
+   (đã ghi `train_15` ở ca 2) thay vì chỉ sửa nhãn. Ngược lại, `train_06` và `train_14` chỉ khó với model,
+   nên độ khó của model không phải lúc nào cũng trùng độ khó của người gán.
 
 ## 5. Một rule evidence bạn đã dùng
 
