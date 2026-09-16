@@ -36,7 +36,7 @@ Chấm viền nét đứt trong CVAT = `v = 1` (bị che); khớp `v = 0` không
 
 ![train_10 - hông v=1 sau kính chắn gió, gối và cổ chân v=0 dưới mép ảnh](reports/img/train_10.png)
 
-**Tai bị tóc hoặc mũ bảo hiểm che** + **Người bị cắt ở mép ảnh** - `train_04`: tai của người lái xe bên
+**Tai bị tóc hoặc mũ bảo hiểm che** + **Người bị cắt ở mép ảnh** - `train_04`: một tai của người lái xe bên
 phải là chấm nét đứt nằm trong mũ bảo hiểm (`v = 1`); người lái xe bên trái bị cắt ở đáy ảnh, hai hông kéo
 vào trong khung.
 
